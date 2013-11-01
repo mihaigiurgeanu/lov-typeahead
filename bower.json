@@ -6,7 +6,7 @@
     "Mihai Giurgeanu <mihai.giurgeanu@genesissoftware.ro>"
   ],
   "description": "LOV component for AngularJS using Twitter's typeahead",
-  "main": "target/js/lov-typehead.js",
+  "main": "dist/lov-typehead.js",
   "keywords": [
     "LOV",
     "typeahead",
