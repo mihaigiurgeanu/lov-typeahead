@@ -21,5 +21,8 @@
     "tests",
     "target/cljsbuild-compiler-0/*",
     "target/stale/*"
-  ]
+  ],
+  "dependencies": {
+    "typeahead.js": "0.9.3"
+  }
 }
