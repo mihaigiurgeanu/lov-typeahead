@@ -1,0 +1,25 @@
+{
+  "name": "lov-typeahead",
+  "version": "0.1.0.-SNAPTSHOT-2",
+  "homepage": "https://github.com/mihaigiurgeanu/lov-typeahead",
+  "authors": [
+    "Mihai Giurgeanu <mihai.giurgeanu@genesissoftware.ro>"
+  ],
+  "description": "LOV component for AngularJS using Twitter's typeahead",
+  "main": "target/js/lov-typehead.js",
+  "keywords": [
+    "LOV",
+    "typeahead",
+    "angularjs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "target/cljsbuild-compiler-0/*",
+    "target/stale/*"
+  ]
+}
