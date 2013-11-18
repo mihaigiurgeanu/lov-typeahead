@@ -9,6 +9,6 @@
     :builds [{
       :source-paths ["src/cljs"]
       :compiler {
-        :output-to "target/js/lov-typehead.js"
+        :output-to "dist/lov-typehead.js"
         :optimizations :whitespace
         :pretty-print true}}]})
