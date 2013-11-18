@@ -1,0 +1,29 @@
+{
+  "name": "lov-typehead-js",
+  "version": "0.1.0-SNAPSHOT",
+  "description": "A list of values AngularJS component based on Twitter's typeahead",
+  "main": "dist/lov-typehead.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mihaigiurgeanu/lov-typeahead.git"
+  },
+  "keywords": [
+    "lov",
+    "typeahead",
+    "twitter",
+    "clojure",
+    "angular"
+  ],
+  "author": "Mihai Giurgeanu",
+  "license": "Eclipse Public License",
+  "bugs": {
+    "url": "https://github.com/mihaigiurgeanu/lov-typeahead/issues"
+  }
+}
