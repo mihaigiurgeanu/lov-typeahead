@@ -11,4 +11,5 @@ pom.xml.asc
 /.settings
 /node_modules
 /.externalToolBuilders
+/selenium
 
