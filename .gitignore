@@ -12,4 +12,5 @@ pom.xml.asc
 /node_modules
 /.externalToolBuilders
 /selenium
+/bower_components
 

@@ -1,0 +1,18 @@
+<!doctype html>
+<html x-ng-app="typeaheadDirectiveSample">
+  <head>
+  	<title>Typeahead LOV sample usage</title>
+  </head>
+  <body>
+  
+    <div x-ng-controller="Ctrl">
+    	<input type="text" x-lov-typeahead="test" x-lov-name="test-lov" x-lov-prefetch="test-data.json" x-lov-limit="10"></input>
+    </div>
+
+	<script src="jquery/jquery.min.js"></script>
+	<script src="typeahead.js/dist/typeahead.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.1/angular.min.js"></script>
+    <script src="lov-typeahead.js"></script>
+    <script src="typeahead-demo.js"></script>
+  </body>
+</html>

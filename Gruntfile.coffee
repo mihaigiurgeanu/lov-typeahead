@@ -3,7 +3,7 @@ module.exports = (grunt) ->
 		pkg: grunt.file.readJSON 'package.json'
 		connect:
 			options:
-				base: '<%= pkg.testFolder %>'
+				base: ['dist', 'bower_components', 'test']
 			test:
 				options:
 					keepalive: false
@@ -17,7 +17,7 @@ module.exports = (grunt) ->
 					keepAlive: false
 		open:
 			demo:
-				path: 'http://localhost:8000/thpeahead.html'
+				path: 'http://localhost:8000/thpeahead-demo.html'
 				app: 'Firefox'
 	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-protractor-runner'

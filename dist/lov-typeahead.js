@@ -499,6 +499,19 @@ goog.base = function(me, opt_methodName, var_args) {
 goog.scope = function(fn) {
   fn.call(goog.global)
 };
+goog.provide("goog.debug.Error");
+goog.debug.Error = function(opt_msg) {
+  if(Error.captureStackTrace) {
+    Error.captureStackTrace(this, goog.debug.Error)
+  }else {
+    this.stack = (new Error).stack || ""
+  }
+  if(opt_msg) {
+    this.message = String(opt_msg)
+  }
+};
+goog.inherits(goog.debug.Error, Error);
+goog.debug.Error.prototype.name = "CustomError";
 goog.provide("goog.string");
 goog.provide("goog.string.Unicode");
 goog.string.Unicode = {NBSP:"\u00a0"};
@@ -939,19 +952,6 @@ goog.string.parseInt = function(value) {
   }
   return NaN
 };
-goog.provide("goog.debug.Error");
-goog.debug.Error = function(opt_msg) {
-  if(Error.captureStackTrace) {
-    Error.captureStackTrace(this, goog.debug.Error)
-  }else {
-    this.stack = (new Error).stack || ""
-  }
-  if(opt_msg) {
-    this.message = String(opt_msg)
-  }
-};
-goog.inherits(goog.debug.Error, Error);
-goog.debug.Error.prototype.name = "CustomError";
 goog.provide("goog.asserts");
 goog.provide("goog.asserts.AssertionError");
 goog.require("goog.debug.Error");
@@ -22333,12 +22333,12 @@ lov_typeahead.hello.foo = function foo(x) {
 };
 goog.provide("lov_typeahead.directive");
 goog.require("cljs.core");
-lov_typeahead.directive.theModule = angular.module("lovTypeaheadDirecive", cljs.core.clj__GT_js.call(null, cljs.core.PersistentVector.EMPTY));
-lov_typeahead.directive.theModule.directive(function() {
+lov_typeahead.directive.theModule = angular.module("lovTypeahead", cljs.core.clj__GT_js.call(null, cljs.core.PersistentVector.EMPTY));
+lov_typeahead.directive.theModule.directive("lovTypeahead", function() {
   return cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "link", "link", 1017226092), function(scope, element, attrs) {
-    var label = "label";
-    return scope.$watch(attrs.ngModel, function(value) {
-      return cljs.core.get.call(null, value, label)
-    })
+    var name = attrs.lovName;
+    var prefetch = attrs.lovPrefetch;
+    var limit = attrs.lovLimit;
+    return element.typeahead(cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), name, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), prefetch, new cljs.core.Keyword(null, "limit", "limit", 1116880685), limit], true)))
   }], true))
 });

@@ -1,12 +1,12 @@
 {
   "name": "lov-typeahead",
-  "version": "0.1.0-SNAPSHOT-4",
+  "version": "0.1.0-SNAPSHOT-5",
   "homepage": "https://github.com/mihaigiurgeanu/lov-typeahead",
   "authors": [
     "Mihai Giurgeanu <mihai.giurgeanu@genesissoftware.ro>"
   ],
   "description": "LOV component for AngularJS using Twitter's typeahead",
-  "main": "dist/lov-typehead.js",
+  "main": "dist/lov-typeahead.js",
   "keywords": [
     "LOV",
     "typeahead",
@@ -24,5 +24,8 @@
   ],
   "dependencies": {
     "typeahead.js": "0.9.3"
+  },
+  "devDependencies": {
+    "typeahead.js": "~0.9.3"
   }
 }
