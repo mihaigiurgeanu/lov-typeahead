@@ -22559,7 +22559,7 @@ goog.require("lov_typeahead.dataset");
 lov_typeahead.directive.theModule = angular.module("lovTypeahead", cljs.core.clj__GT_js.call(null, cljs.core.PersistentVector.EMPTY));
 lov_typeahead.directive.theModule.directive("lovTypeahead", function() {
   return cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "link", "link", 1017226092), function(scope, element, attrs) {
-    var name = attrs.lovName;
+    var name = attrs.lovTypeahead;
     var prefetch = attrs.lovPrefetch;
     var limit = attrs.lovLimit;
     var value_key = attrs.lovValueKey;
@@ -22576,12 +22576,12 @@ lov_typeahead.directive.theModule.directive("lovTypeahead", function() {
         return scope.$digest()
       }
     }(name, prefetch, limit, value_key, lov_model);
-    var G__4744 = element;
-    G__4744.typeahead(cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), name, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), function(p1__4743_SHARP_) {
-      return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4743_SHARP_)
+    var G__4671 = element;
+    G__4671.typeahead(cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), name, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), function(p1__4670_SHARP_) {
+      return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4670_SHARP_)
     }], true)), new cljs.core.Keyword(null, "limit", "limit", 1116880685), limit], true)));
-    G__4744.on("typeahead:selected", update_model);
-    G__4744.on("typeahead:autocompleted", update_model);
-    return G__4744
+    G__4671.on("typeahead:selected", update_model);
+    G__4671.on("typeahead:autocompleted", update_model);
+    return G__4671
   }], true))
 });

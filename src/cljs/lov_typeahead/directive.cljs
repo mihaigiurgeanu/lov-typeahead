@@ -7,7 +7,7 @@
   (fn []
     (clj->js
       {:link (fn [scope element attrs] 
-               (let [name (.-lovName attrs)
+               (let [name (.-lovTypeahead attrs)
                      prefetch (.-lovPrefetch attrs)
                      limit (.-lovLimit attrs)
                      value-key (.-lovValueKey attrs)
