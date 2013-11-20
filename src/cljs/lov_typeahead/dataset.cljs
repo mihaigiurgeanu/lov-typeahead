@@ -1,4 +1,5 @@
-(ns lov-typeahead.dataset)
+(ns lov-typeahead.dataset
+  (:require clojure.string))
 
 (defn to-datum
   "Transforms a business object into a typeahead datum object.
@@ -25,5 +26,8 @@ value-key is the key that holds the searchable value in the business object. The
   (map #(to-datum value-key %) objects))
 
 (defn json->dataset 
-  [value-key js-objects]
-  (clj->js (make-dataset value-key (js->clj js-objects))))
+  [value-key objects]
+  (do
+    (.log js/console (str "json->dataset, value-key: " value-key))
+    (.log js/console (str "json->dataset, js-objects: " (.stringify js/JSON objects)))
+    (clj->js (make-dataset value-key (js->clj objects)))))

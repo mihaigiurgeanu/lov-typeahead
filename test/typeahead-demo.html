@@ -3,17 +3,24 @@
   <head>
   	<title>Typeahead LOV sample usage</title>
   </head>
-  <body>
+  <body x-ng-controller="Ctrl">
   
-    <div x-ng-controller="Ctrl">
+	<ul>
+	<li>Country id: <span>{{country.id}}</span>
+	<li>Country name: <span>{{country.name}}</span>
+	</ul>
+
+    <div>
     	<input type="text" 
     	x-lov-typeahead="test" 
-    	x-lov-name="test-lov" 
+    	x-lov-name="test-lov-3" 
     	x-lov-prefetch="test-data.json" 
     	x-lov-limit="10"
-    	x-lov-value-key="name"></input>
+    	x-lov-value-key="name"
+    	x-lov-model="country"></input>
     </div>
 
+	
 	<script src="jquery/jquery.min.js"></script>
 	<script src="typeahead.js/dist/typeahead.min.js"></script>
     <script src="http://code.angularjs.org/1.2.1/angular.min.js"></script>
