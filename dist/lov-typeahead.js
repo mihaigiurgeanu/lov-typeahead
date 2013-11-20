@@ -22338,12 +22338,12 @@ lov_typeahead.dataset.to_datum = function to_datum(value_key, biz_object) {
   return cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "value", "value", 1125876963), value, new cljs.core.Keyword(null, "tokens", "tokens", 4440684812), clojure.string.split.call(null, value, /\s+/), new cljs.core.Keyword(null, "object", "object", 4285503153), biz_object], true)
 };
 lov_typeahead.dataset.make_dataset = function make_dataset(value_key, objects) {
-  return cljs.core.map.call(null, function(p1__4653_SHARP_) {
-    return lov_typeahead.dataset.to_datum.call(null, value_key, p1__4653_SHARP_)
+  return cljs.core.map.call(null, function(p1__4657_SHARP_) {
+    return lov_typeahead.dataset.to_datum.call(null, value_key, p1__4657_SHARP_)
   }, objects)
 };
 lov_typeahead.dataset.json__GT_dataset = function json__GT_dataset(value_key, js_objects) {
-  return cljs.core.clj__GT_js.call(null, lov_typeahead.dataset.make_dataset.call(null, cljs.core.keyword.call(null, value_key), cljs.core.js__GT_clj.call(null, js_objects, new cljs.core.Keyword(null, "keywordize-keys", "keywordize-keys", 4191781672), true)))
+  return cljs.core.clj__GT_js.call(null, lov_typeahead.dataset.make_dataset.call(null, value_key, cljs.core.js__GT_clj.call(null, js_objects)))
 };
 goog.provide("lov_typeahead.directive");
 goog.require("cljs.core");

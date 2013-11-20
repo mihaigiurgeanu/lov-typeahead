@@ -26,4 +26,4 @@ value-key is the key that holds the searchable value in the business object. The
 
 (defn json->dataset 
   [value-key js-objects]
-  (clj->js (make-dataset (keyword value-key) (js->clj js-objects :keywordize-keys true))))
+  (clj->js (make-dataset value-key (js->clj js-objects))))
