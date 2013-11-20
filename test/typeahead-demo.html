@@ -6,7 +6,12 @@
   <body>
   
     <div x-ng-controller="Ctrl">
-    	<input type="text" x-lov-typeahead="test" x-lov-name="test-lov" x-lov-prefetch="test-data.json" x-lov-limit="10"></input>
+    	<input type="text" 
+    	x-lov-typeahead="test" 
+    	x-lov-name="test-lov" 
+    	x-lov-prefetch="test-data.json" 
+    	x-lov-limit="10"
+    	x-lov-value-key="name"></input>
     </div>
 
 	<script src="jquery/jquery.min.js"></script>
