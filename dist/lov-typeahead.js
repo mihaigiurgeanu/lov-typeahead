@@ -22561,10 +22561,11 @@ lov_typeahead.directive.theModule.directive("lovTypeahead", function() {
   return cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "link", "link", 1017226092), function(scope, element, attrs) {
     var name = attrs.lovTypeahead;
     var prefetch = attrs.lovPrefetch;
+    var remote = attrs.lovRemote;
     var limit = attrs.lovLimit;
     var value_key = attrs.lovValueKey;
     var lov_model = attrs.lovModel;
-    var update_model = function(name, prefetch, limit, value_key, lov_model) {
+    var update_model = function(name, prefetch, remote, limit, value_key, lov_model) {
       return function(event, datum, name__$1) {
         console.log([cljs.core.str("update model, dataset name: "), cljs.core.str(name__$1)].join(""));
         console.log([cljs.core.str("update model, datum: "), cljs.core.str(JSON.stringify(datum))].join(""));
@@ -22575,13 +22576,21 @@ lov_typeahead.directive.theModule.directive("lovTypeahead", function() {
         console.log([cljs.core.str("update model, value after update: "), cljs.core.str(JSON.stringify(scope[lov_model]))].join(""));
         return scope.$digest()
       }
-    }(name, prefetch, limit, value_key, lov_model);
-    var G__4671 = element;
-    G__4671.typeahead(cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), name, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), function(p1__4670_SHARP_) {
-      return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4670_SHARP_)
-    }], true)), new cljs.core.Keyword(null, "limit", "limit", 1116880685), limit], true)));
-    G__4671.on("typeahead:selected", update_model);
-    G__4671.on("typeahead:autocompleted", update_model);
-    return G__4671
+    }(name, prefetch, remote, limit, value_key, lov_model);
+    var G__4676 = element;
+    G__4676.typeahead(function() {
+      var options = cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), [cljs.core.str(name), cljs.core.str("-123")].join("")], true);
+      var filter_fn = function(options) {
+        return function(p1__4675_SHARP_) {
+          return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4675_SHARP_)
+        }
+      }(options);
+      var options__$1 = prefetch == null ? options : cljs.core.assoc.call(null, options, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
+      var options__$2 = remote == null ? options__$1 : cljs.core.assoc.call(null, options__$1, new cljs.core.Keyword(null, "remote", "remote", 4374260664), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), remote, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
+      return cljs.core.clj__GT_js.call(null, options__$2)
+    }());
+    G__4676.on("typeahead:selected", update_model);
+    G__4676.on("typeahead:autocompleted", update_model);
+    return G__4676
   }], true))
 });
