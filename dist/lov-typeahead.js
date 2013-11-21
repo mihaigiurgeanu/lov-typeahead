@@ -22560,7 +22560,9 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
   var limit = attrs.lovLimit;
   var value_key = attrs.lovValueKey;
   var lov_model = attrs.lovModel;
-  var update_model = function(limit, value_key, lov_model) {
+  var dataset_is_valid_attr = attrs.lovDatasetIsValid;
+  var dataset_is_valid = dataset_is_valid_attr == null ? true : scope.$eval(dataset_is_valid_attr);
+  var update_model = function(limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid) {
     return function(event, datum, name) {
       console.log([cljs.core.str("update model, dataset name: "), cljs.core.str(name)].join(""));
       console.log([cljs.core.str("update model, datum: "), cljs.core.str(JSON.stringify(datum))].join(""));
@@ -22571,38 +22573,42 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
       console.log([cljs.core.str("update model, value after update: "), cljs.core.str(JSON.stringify(scope[lov_model]))].join(""));
       return scope.$digest()
     }
-  }(limit, value_key, lov_model);
-  var set_up_typeahead = function(limit, value_key, lov_model, update_model) {
+  }(limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid);
+  var set_up_typeahead = function(limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
     return function() {
-      console.log([cljs.core.str("new value of lov-typeahead: "), cljs.core.str(attrs.lovTypeahead)].join(""));
+      console.log([cljs.core.str("dataset name: "), cljs.core.str(attrs.lovTypeahead)].join(""));
       element.typeahead("destroy");
-      console.log("setup the typehead");
-      return element.typeahead(function() {
-        var name = attrs.lovTypeahead;
-        var prefetch = attrs.lovPrefetch;
-        var remote = attrs.lovRemote;
-        var options = cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), [cljs.core.str(name), cljs.core.str("-123")].join("")], true);
-        var filter_fn = function(name, prefetch, remote, options, limit, value_key, lov_model, update_model) {
-          return function(p1__4809_SHARP_) {
-            return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4809_SHARP_)
-          }
-        }(name, prefetch, remote, options, limit, value_key, lov_model, update_model);
-        var options__$1 = prefetch == null ? options : cljs.core.assoc.call(null, options, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
-        var options__$2 = remote == null ? options__$1 : cljs.core.assoc.call(null, options__$1, new cljs.core.Keyword(null, "remote", "remote", 4374260664), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), remote, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
-        console.log([cljs.core.str("prefetch: "), cljs.core.str(prefetch)].join(""));
-        return cljs.core.clj__GT_js.call(null, options__$2)
-      }())
+      if(cljs.core.truth_(dataset_is_valid)) {
+        console.log("setup the typehead");
+        return element.typeahead(function() {
+          var name = attrs.lovTypeahead;
+          var prefetch = attrs.lovPrefetch;
+          var remote = attrs.lovRemote;
+          var options = cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), [cljs.core.str(name), cljs.core.str("-123")].join("")], true);
+          var filter_fn = function(name, prefetch, remote, options, limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
+            return function(p1__4827_SHARP_) {
+              return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4827_SHARP_)
+            }
+          }(name, prefetch, remote, options, limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
+          var options__$1 = prefetch == null ? options : cljs.core.assoc.call(null, options, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
+          var options__$2 = remote == null ? options__$1 : cljs.core.assoc.call(null, options__$1, new cljs.core.Keyword(null, "remote", "remote", 4374260664), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), remote, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
+          console.log([cljs.core.str("prefetch: "), cljs.core.str(prefetch)].join(""));
+          return cljs.core.clj__GT_js.call(null, options__$2)
+        }())
+      }else {
+        return null
+      }
     }
-  }(limit, value_key, lov_model, update_model);
+  }(limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
   attrs.$observe("lovTypeahead", set_up_typeahead);
   attrs.$observe("lovRemote", set_up_typeahead);
   scope.$watch(lov_model, function(value) {
     return element.val(value[value_key])
   });
-  var G__4811 = element;
-  G__4811.on("typeahead:selected", update_model);
-  G__4811.on("typeahead:autocompleted", update_model);
-  return G__4811
+  var G__4829 = element;
+  G__4829.on("typeahead:selected", update_model);
+  G__4829.on("typeahead:autocompleted", update_model);
+  return G__4829
 };
 lov_typeahead.directive.lovTypeaheadModule = angular.module("lovTypeahead", cljs.core.clj__GT_js.call(null, cljs.core.PersistentVector.EMPTY));
 lov_typeahead.directive.lovTypeaheadModule.directive("lovTypeahead", function() {

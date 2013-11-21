@@ -6,6 +6,9 @@
   [scope element attrs] (let [limit (.-lovLimit attrs)
                               value-key (.-lovValueKey attrs)
                               lov-model (.-lovModel attrs)
+                              dataset-is-valid-attr (.-lovDatasetIsValid attrs)
+                              dataset-is-valid (if (nil? dataset-is-valid-attr) true
+                                                 (.$eval scope dataset-is-valid-attr))
                               update-model (fn [event datum name]
                                              (.log js/console (str "update model, dataset name: " name))
                                              (.log js/console (str "update model, datum: " (.stringify js/JSON datum)))
@@ -16,23 +19,24 @@
                                              (.log js/console (str "update model, value after update: " (.stringify js/JSON (aget scope lov-model))))
                                              (.$digest scope))
                               set-up-typeahead (fn []
-                                                 (.log js/console (str "new value of lov-typeahead: " (.-lovTypeahead attrs)))
+                                                 (.log js/console (str "dataset name: " (.-lovTypeahead attrs)))
                                                  (.typeahead element "destroy")
-                                                 (.log js/console "setup the typehead")
-                                                 (.typeahead element 
-                                                   (let [name (.-lovTypeahead attrs)
-                                                         prefetch (.-lovPrefetch attrs)
-                                                         remote (.-lovRemote attrs)
-                                                         options {:name (str name "-123")}
-                                                         filter-fn #(d/json->dataset value-key %)
-                                                         options (if (nil? prefetch) options 
-                                                                   (assoc options :prefetch (clj->js {:url prefetch
-                                                                                                      :filter filter-fn})))
-                                                         options (if (nil? remote) options
-                                                                   (assoc options :remote (clj->js {:url remote
-                                                                                                    :filter filter-fn})))]
-                                                     (.log js/console (str "prefetch: " prefetch))
-                                                     (clj->js options))))]
+                                                 (when dataset-is-valid
+                                                   (.log js/console "setup the typehead")
+                                                   (.typeahead element 
+                                                     (let [name (.-lovTypeahead attrs)
+                                                           prefetch (.-lovPrefetch attrs)
+                                                           remote (.-lovRemote attrs)
+                                                           options {:name (str name "-123")}
+                                                           filter-fn #(d/json->dataset value-key %)
+                                                           options (if (nil? prefetch) options 
+                                                                     (assoc options :prefetch (clj->js {:url prefetch
+                                                                                                        :filter filter-fn})))
+                                                           options (if (nil? remote) options
+                                                                     (assoc options :remote (clj->js {:url remote
+                                                                                                      :filter filter-fn})))]
+                                                       (.log js/console (str "prefetch: " prefetch))
+                                                       (clj->js options)))))]
                           (.$observe attrs "lovTypeahead" set-up-typeahead)
                           (.$observe attrs "lovRemote" set-up-typeahead)
                           (.$watch scope lov-model (fn [value] (.val element (aget value value-key))))
