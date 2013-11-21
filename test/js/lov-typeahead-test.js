@@ -46,6 +46,6 @@ describe('lov-typeahead sample usage page', function() {
 	};
 	
 	describe('for prefetch only use-case', test_sets_for_url('http://localhost:8000/typeahead-demo-prefetch.html'));
-	//describe('for remote only use-case', test_sets_for_url('http://localhost:8000/typeahead-demo-remote.html'));
+	describe('for remote only use-case', test_sets_for_url('http://localhost:8000/typeahead-demo-remote.html'));
 
 });

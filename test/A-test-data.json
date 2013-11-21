@@ -1,0 +1,66 @@
+[
+	{
+		"id":1,
+		"name":"Andorra"
+	},
+	{
+		"id":2,
+		"name":"United Arab Emirates"
+	},
+	{
+		"id":3,
+		"name":"Afghanistan"
+	},
+	{
+		"id":4,
+		"name":"Antigua and Barbuda"
+	},
+	{
+		"id":5,
+		"name":"Anguilla"
+	},
+	{
+		"id":6,
+		"name":"Albania"
+	},
+	{
+		"id":7,
+		"name":"Armenia"
+	},
+	{
+		"id":8,
+		"name":"Angola"
+	},
+	{
+		"id":9,
+		"name":"Antarctica"
+	},
+	{
+		"id":10,
+		"name":"Argentina"
+	},
+	{
+		"id":1,
+		"name":"American Samoa"
+	},
+	{
+		"id":1,
+		"name":"Austria"
+	},
+	{
+		"id":1,
+		"name":"Australia"
+	},
+	{
+		"id":1,
+		"name":"Aruba"
+	},
+	{
+		"id":1,
+		"name":"Aland"
+	},
+	{
+		"id":1,
+		"name":"Azerbaijan"
+	}
+]
