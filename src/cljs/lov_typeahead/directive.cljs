@@ -33,4 +33,7 @@
                                                                                 :filter filter-fn})))]
                                  (clj->js options)))
                    (.on "typeahead:selected" update-model)
-                   (.on "typeahead:autocompleted" update-model))))})))
+                   (.on "typeahead:autocompleted" update-model)
+                   (.on "destroy" (fn [] 
+                                    (.log js/console "destroy evenet on typeahead")
+                                    (.typeahead('destroy')))))))})))

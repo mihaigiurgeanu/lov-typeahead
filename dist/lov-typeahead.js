@@ -22577,20 +22577,24 @@ lov_typeahead.directive.theModule.directive("lovTypeahead", function() {
         return scope.$digest()
       }
     }(name, prefetch, remote, limit, value_key, lov_model);
-    var G__4676 = element;
-    G__4676.typeahead(function() {
+    var G__4680 = element;
+    G__4680.typeahead(function() {
       var options = cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), [cljs.core.str(name), cljs.core.str("-123")].join("")], true);
       var filter_fn = function(options) {
-        return function(p1__4675_SHARP_) {
-          return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4675_SHARP_)
+        return function(p1__4679_SHARP_) {
+          return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4679_SHARP_)
         }
       }(options);
       var options__$1 = prefetch == null ? options : cljs.core.assoc.call(null, options, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
       var options__$2 = remote == null ? options__$1 : cljs.core.assoc.call(null, options__$1, new cljs.core.Keyword(null, "remote", "remote", 4374260664), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), remote, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
       return cljs.core.clj__GT_js.call(null, options__$2)
     }());
-    G__4676.on("typeahead:selected", update_model);
-    G__4676.on("typeahead:autocompleted", update_model);
-    return G__4676
+    G__4680.on("typeahead:selected", update_model);
+    G__4680.on("typeahead:autocompleted", update_model);
+    G__4680.on("destroy", function() {
+      console.log("destroy evenet on typeahead");
+      return(new cljs.core.Symbol(null, "destroy'", "destroy'", -606611162, null)).call(null).typeahead()
+    });
+    return G__4680
   }], true))
 });
