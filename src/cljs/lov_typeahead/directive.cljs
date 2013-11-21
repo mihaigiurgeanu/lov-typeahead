@@ -3,10 +3,7 @@
 
 (defn set-up-typeahead 
   "The directive linking function that configs the typeahead element"
-  [scope element attrs] (let [name (.-lovTypeahead attrs)
-                              prefetch (.-lovPrefetch attrs)
-                              remote (.-lovRemote attrs)
-                              limit (.-lovLimit attrs)
+  [scope element attrs] (let [limit (.-lovLimit attrs)
                               value-key (.-lovValueKey attrs)
                               lov-model (.-lovModel attrs)
                               update-model (fn [event datum name]
@@ -18,22 +15,27 @@
                                              (aset scope lov-model (.-object datum))
                                              (.log js/console (str "update model, value after update: " (.stringify js/JSON (aget scope lov-model))))
                                              (.$digest scope))]
-                                                      (.log js/console (str "prefetch: " prefetch))
-                                                      (doto element
-                                                        (.typeahead (let [options {:name (str name "-123")}
-                                                                          filter-fn #(d/json->dataset value-key %)
-                                                                          options (if (nil? prefetch) options 
-                                                                                    (assoc options :prefetch (clj->js {:url prefetch
-                                                                                                                       :filter filter-fn})))
-                                                                          options (if (nil? remote) options
-                                                                                    (assoc options :remote (clj->js {:url remote
-                                                                                                                     :filter filter-fn})))]
-                                                                      (clj->js options)))
-                                                        (.on "typeahead:selected" update-model)
-                                                        (.on "typeahead:autocompleted" update-model)
-                                                        (.on "$destroy" (fn [] 
-                                                                          (.log js/console "destroy evenet on typeahead")
-                                                                          (.typeahead('destroy')))))))
+                          (.$observe attrs "lovTypeahead" (fn []
+                                                            (.log js/console (str "new value of lov-typeahead: " (.-lovTypeahead attrs)))
+                                                            (.typeahead element "destroy")
+                                                            (.log js/console "setup the typehead")
+                                                            (.typeahead element 
+                                                              (let [name (.-lovTypeahead attrs)
+                                                                    prefetch (.-lovPrefetch attrs)
+                                                                    remote (.-lovRemote attrs)
+                                                                    options {:name (str name "-123")}
+                                                                    filter-fn #(d/json->dataset value-key %)
+                                                                    options (if (nil? prefetch) options 
+                                                                              (assoc options :prefetch (clj->js {:url prefetch
+                                                                                                                 :filter filter-fn})))
+                                                                    options (if (nil? remote) options
+                                                                              (assoc options :remote (clj->js {:url remote
+                                                                                                               :filter filter-fn})))]
+                                                                (.log js/console (str "prefetch: " prefetch))
+                                                                (clj->js options)))))
+                          (doto element
+                            (.on "typeahead:selected" update-model)
+                            (.on "typeahead:autocompleted" update-model))))
 
 (def lovTypeaheadModule
    "The definition of the lov-typeahead's module" 
