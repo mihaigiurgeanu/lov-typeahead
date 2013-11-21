@@ -20,6 +20,11 @@ describe('lov-typeahead sample usage page', function() {
 				expect(countryName.getText()).toEqual('No country selected');
 			});
 
+			it('has the initial text in the input control "No country selected"', function () {
+				var input = browser.findElement(by.css('input[x-lov-typeahead="test"]'));
+				expect(input.getAttribute("value")).toEqual('No country selected');
+			});
+			
 			it('contains one typeahead lov control', function() {
 				element.all(by.css('input[x-lov-typeahead="test"]')).count().then(
 						function(num) {
@@ -28,8 +33,11 @@ describe('lov-typeahead sample usage page', function() {
 			});
 
 			it('selects a Anguilla after typing Ang<tab>', function() {
-				browser.findElement(by.css('input[x-lov-typeahead="test"]'))
-						.sendKeys('Ang\t');
+				var input = browser.findElement(by.css('input[x-lov-typeahead="test"]'));
+				input.clear();
+				input.sendKeys('Ang');
+				browser.sleep(2000);
+				input.sendKeys('\t');
 				expect(countryId.getText()).toEqual("5");
 				expect(countryName.getText()).toEqual("Anguilla");
 			});

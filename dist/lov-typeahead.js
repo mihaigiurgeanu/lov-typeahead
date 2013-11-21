@@ -22583,8 +22583,8 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
         var remote = attrs.lovRemote;
         var options = cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), [cljs.core.str(name), cljs.core.str("-123")].join("")], true);
         var filter_fn = function(name, prefetch, remote, options, limit, value_key, lov_model, update_model) {
-          return function(p1__4800_SHARP_) {
-            return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4800_SHARP_)
+          return function(p1__4809_SHARP_) {
+            return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4809_SHARP_)
           }
         }(name, prefetch, remote, options, limit, value_key, lov_model, update_model);
         var options__$1 = prefetch == null ? options : cljs.core.assoc.call(null, options, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), cljs.core.clj__GT_js.call(null, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true)));
@@ -22596,10 +22596,13 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
   }(limit, value_key, lov_model, update_model);
   attrs.$observe("lovTypeahead", set_up_typeahead);
   attrs.$observe("lovRemote", set_up_typeahead);
-  var G__4802 = element;
-  G__4802.on("typeahead:selected", update_model);
-  G__4802.on("typeahead:autocompleted", update_model);
-  return G__4802
+  scope.$watch(lov_model, function(value) {
+    return element.val(value[value_key])
+  });
+  var G__4811 = element;
+  G__4811.on("typeahead:selected", update_model);
+  G__4811.on("typeahead:autocompleted", update_model);
+  return G__4811
 };
 lov_typeahead.directive.lovTypeaheadModule = angular.module("lovTypeahead", cljs.core.clj__GT_js.call(null, cljs.core.PersistentVector.EMPTY));
 lov_typeahead.directive.lovTypeaheadModule.directive("lovTypeahead", function() {

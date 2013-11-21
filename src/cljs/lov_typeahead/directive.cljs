@@ -35,6 +35,7 @@
                                                      (clj->js options))))]
                           (.$observe attrs "lovTypeahead" set-up-typeahead)
                           (.$observe attrs "lovRemote" set-up-typeahead)
+                          (.$watch scope lov-model (fn [value] (.val element (aget value value-key))))
                           (doto element
                             (.on "typeahead:selected" update-model)
                             (.on "typeahead:autocompleted" update-model))))
