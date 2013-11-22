@@ -10,5 +10,6 @@
       :source-paths ["src/cljs"]
       :compiler {
         :output-to "dist/lov-typeahead.js"
-        :optimizations :whitespace
+        ;:externs ["src/js/externs.js"]
+        :optimizations :simple
         :pretty-print true}}]})

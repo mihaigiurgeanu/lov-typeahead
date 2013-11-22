@@ -1,6 +1,14 @@
 (ns lov-typeahead.directive
   (:require [lov-typeahead.dataset :as d]))
 
+(defn no-nill-assoc
+  ([options key value] 
+    (if (nil? value) options
+      (assoc options key value)))
+  ([options key test value] 
+    (if (nil? test) options
+      (assoc options key value))))
+
 (defn link-typeahead 
   "The directive linking function that configs the typeahead element"
   [scope element attrs] (let [value-key (.-lovValueKey attrs)
@@ -30,13 +38,6 @@
                                                              remote (.-lovRemote attrs)
                                                              options {:name name}
                                                              filter-fn #(d/json->dataset value-key %)
-                                                             no-nill-assoc (fn 
-                                                                             ([options key value] 
-                                                                               (if (nil? value) options
-                                                                                 (assoc options key (clj->js value))))
-                                                                             ([options key test value] 
-                                                                               (if (nil? test) options
-                                                                                 (assoc options key (clj->js value)))))
                                                              options (no-nill-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
                                                              options (no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
                                                              options (no-nill-assoc options :limit limit)
@@ -44,6 +45,7 @@
                                                          (.log js/console (str "prefetch: " prefetch))
                                                          (.log js/console (str "options: " (.stringify js/JSON options-js)))
                                                          options-js)))))]
+                          (.log js/console "lov-typeahead directive linking")
                           (.$observe attrs "lovTypeahead" set-up-typeahead)
                           (.$observe attrs "lovRemote" set-up-typeahead)
                           (.$watch scope lov-model (fn [value] (.val element (aget value value-key))))
@@ -52,11 +54,12 @@
                             (.on "typeahead:autocompleted" update-model))))
 
 (def lovTypeaheadModule
-   "The definition of the lov-typeahead's module" 
-  (.module js/angular "lovTypeahead" (clj->js [])))
+   "The definition of the lov-typeahead's module"
+   (.module js/angular "lovTypeahead" (clj->js [])))
 
 (.directive lovTypeaheadModule
   "lovTypeahead"
   (fn []
+    (.log js/console "lovTypeahead directive definition")
     (clj->js {:link link-typeahead})))
 
