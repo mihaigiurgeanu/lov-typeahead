@@ -2,6 +2,7 @@
   (:require [lov-typeahead.dataset :as d]))
 
 (defn no-nill-assoc
+  "Helper function used to create the typeahead options map based on existence or not of optional attributes on the input text tag."
   ([options key value] 
     (if (nil? value) options
       (assoc options key value)))
@@ -15,8 +16,6 @@
   (let [fields (clojure.string/split model #"\.")
         model-field (last fields)
         model-parent (do
-                       (.log js/console (str "lov-model fields: " (.stringify js/JSON (clj->js fields))))
-                       (.log js/console (str "from scope"))
                        (loop [crt scope
                               fields' fields]
                          (if (>= 1 (count fields'))
@@ -32,7 +31,6 @@
                                                   val))]
                                (recur (safe-field (aget crt this-field-name))
                                       (rest fields')))))))]
-    (.log js/console (str "model field: " model-field))
     (aset model-parent model-field val)))
 
 (defn link-typeahead 
@@ -40,20 +38,12 @@
   [scope element attrs] (let [value-key (.-lovValueKey attrs)
                               lov-model (.-lovModel attrs)
                               update-model (fn [event datum name]
-                                             (.log js/console (str "update model, dataset name: " name))
-                                             (.log js/console (str "update model, datum: " (.stringify js/JSON datum)))
-                                             (.log js/console (str "update model, datum.object: " (.stringify js/JSON (.-object datum))))
-                                             (.log js/console (str "update model, lov-model: " lov-model))
-                                             (.log js/console (str "update model, value before update: " (.stringify js/JSON (.$eval scope lov-model))))
                                              (set-in-scope scope lov-model (.-object datum))
-                                             (.log js/console (str "update model, value after update: " (.stringify js/JSON (.$eval scope lov-model))))
                                              (.$digest scope))
                               set-up-typeahead (fn []
                                                  (let [dataset-is-valid-attr (.-lovDatasetIsValid attrs)
                                                        dataset-is-valid (if (nil? dataset-is-valid-attr) true
                                                                           (.$eval scope (str "(" dataset-is-valid-attr ")? true:false")))]
-                                                   (.log js/console (str "dataset name: " (.-lovTypeahead attrs)))
-                                                   (.log js/console (str "dataset-is-valid: " dataset-is-valid))
                                                    (.typeahead element "destroy")
                                                    (when dataset-is-valid
                                                      (.log js/console "setup the typehead")
@@ -70,7 +60,6 @@
                                                              options-js (clj->js options)]
                                                          (.log js/console (str "options: " (.stringify js/JSON options-js)))
                                                          options-js)))))]
-                          (.log js/console "lov-typeahead directive linking")
                           (.$observe attrs "lovTypeahead" set-up-typeahead)
                           (.$observe attrs "lovRemote" set-up-typeahead)
                           (.$watch scope lov-model (fn [value] (.val element (if (or (nil? value) (undefined? value)) 
@@ -87,6 +76,5 @@
 (.directive lovTypeaheadModule
   "lovTypeahead"
   (fn []
-    (.log js/console "lovTypeahead directive definition")
     (clj->js {:link link-typeahead})))
 
