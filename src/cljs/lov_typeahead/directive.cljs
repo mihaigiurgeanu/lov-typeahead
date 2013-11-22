@@ -9,31 +9,43 @@
     (if (nil? test) options
       (assoc options key value))))
 
+(defn set-in-scope
+  "Sets a value to an angular js model in a given scope"
+  [scope model val] 
+  (let [fields (clojure.string/split model #"\.")
+        model-field (last fields)
+        model-parent (do
+                       (.log js/console (str "lov-model fields: " (.stringify js/JSON (clj->js fields))))
+                       (.log js/console (str "from scope"))
+                       (loop [crt scope
+                              fields' fields]
+                         (if (>= 1 (count fields'))
+                           crt
+                           (do
+                             (.log js/console (str "aget " (first fields')))
+                             (let [this-field-name (first fields')
+                                   safe-field (fn [val] 
+                                                (if (or (nil? val) (undefined? val))
+                                                  (let [newobj js-obj] 
+                                                    (aset crt this-field-name newobj)
+                                                    newobj)
+                                                  val))]
+                               (recur (safe-field (aget crt this-field-name))
+                                      (rest fields')))))))]
+    (.log js/console (str "model field: " model-field))
+    (aset model-parent model-field val)))
+
 (defn link-typeahead 
   "The directive linking function that configs the typeahead element"
   [scope element attrs] (let [value-key (.-lovValueKey attrs)
                               lov-model (.-lovModel attrs)
-                              fields (clojure.string/split lov-model #"\.")
-                              model-parent (do
-                                             (.log js/console (str "lov-model fields: " (.stringify js/JSON (clj->js fields))))
-                                             (.log js/console (str "from scope"))
-                                             (loop [crt scope
-                                                    fields' fields]
-                                               (if (>= 1 (count fields'))
-                                                 crt
-                                                 (do
-                                                   (.log js/console (str "aget " (first fields')))
-                                                   (recur (aget crt (first fields'))
-                                                          (rest fields'))))))
-                              model-field (last fields)
                               update-model (fn [event datum name]
                                              (.log js/console (str "update model, dataset name: " name))
                                              (.log js/console (str "update model, datum: " (.stringify js/JSON datum)))
                                              (.log js/console (str "update model, datum.object: " (.stringify js/JSON (.-object datum))))
                                              (.log js/console (str "update model, lov-model: " lov-model))
                                              (.log js/console (str "update model, value before update: " (.stringify js/JSON (.$eval scope lov-model))))
-                                             (.log js/console (str "model field: " model-field))
-                                             (aset model-parent model-field (.-object datum))
+                                             (set-in-scope scope lov-model (.-object datum))
                                              (.log js/console (str "update model, value after update: " (.stringify js/JSON (.$eval scope lov-model))))
                                              (.$digest scope))
                               set-up-typeahead (fn []

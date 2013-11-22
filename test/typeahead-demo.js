@@ -5,4 +5,5 @@ angular.module('typeaheadDirectiveSample', ['lovTypeahead'])
 	  $scope.datasetIsValid = true;
 	  
 	  $scope.address = {country:null};
+	  
   });
