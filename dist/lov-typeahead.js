@@ -22557,12 +22557,11 @@ goog.require("cljs.core");
 goog.require("lov_typeahead.dataset");
 goog.require("lov_typeahead.dataset");
 lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element, attrs) {
-  var limit = attrs.lovLimit;
   var value_key = attrs.lovValueKey;
   var lov_model = attrs.lovModel;
   var dataset_is_valid_attr = attrs.lovDatasetIsValid;
   var dataset_is_valid = dataset_is_valid_attr == null ? true : scope.$eval(dataset_is_valid_attr);
-  var update_model = function(limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid) {
+  var update_model = function(value_key, lov_model, dataset_is_valid_attr, dataset_is_valid) {
     return function(event, datum, name) {
       console.log([cljs.core.str("update model, dataset name: "), cljs.core.str(name)].join(""));
       console.log([cljs.core.str("update model, datum: "), cljs.core.str(JSON.stringify(datum))].join(""));
@@ -22573,8 +22572,8 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
       console.log([cljs.core.str("update model, value after update: "), cljs.core.str(JSON.stringify(scope[lov_model]))].join(""));
       return scope.$digest()
     }
-  }(limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid);
-  var set_up_typeahead = function(limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
+  }(value_key, lov_model, dataset_is_valid_attr, dataset_is_valid);
+  var set_up_typeahead = function(value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
     return function() {
       console.log([cljs.core.str("dataset name: "), cljs.core.str(attrs.lovTypeahead)].join(""));
       element.typeahead("destroy");
@@ -22582,46 +22581,48 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
         console.log("setup the typehead");
         return element.typeahead(function() {
           var name = attrs.lovTypeahead;
+          var limit = attrs.lovLimit;
           var prefetch = attrs.lovPrefetch;
           var remote = attrs.lovRemote;
           var options = cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), name], true);
-          var filter_fn = function(name, prefetch, remote, options, limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
-            return function(p1__4870_SHARP_) {
-              return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4870_SHARP_)
+          var filter_fn = function(name, limit, prefetch, remote, options, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
+            return function(p1__4886_SHARP_) {
+              return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4886_SHARP_)
             }
-          }(name, prefetch, remote, options, limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
-          var no_nill_assoc = function(name, prefetch, remote, options, filter_fn, limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
+          }(name, limit, prefetch, remote, options, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
+          var no_nill_assoc = function(name, limit, prefetch, remote, options, filter_fn, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
             return function() {
-              var G__4873 = null;
-              var G__4873__3 = function(options__$1, key, value) {
+              var G__4889 = null;
+              var G__4889__3 = function(options__$1, key, value) {
                 if(value == null) {
                   return options__$1
                 }else {
                   return cljs.core.assoc.call(null, options__$1, key, cljs.core.clj__GT_js.call(null, value))
                 }
               };
-              var G__4873__4 = function(options__$1, key, test, value) {
+              var G__4889__4 = function(options__$1, key, test, value) {
                 if(test == null) {
                   return options__$1
                 }else {
                   return cljs.core.assoc.call(null, options__$1, key, cljs.core.clj__GT_js.call(null, value))
                 }
               };
-              G__4873 = function(options__$1, key, test, value) {
+              G__4889 = function(options__$1, key, test, value) {
                 switch(arguments.length) {
                   case 3:
-                    return G__4873__3.call(this, options__$1, key, test);
+                    return G__4889__3.call(this, options__$1, key, test);
                   case 4:
-                    return G__4873__4.call(this, options__$1, key, test, value)
+                    return G__4889__4.call(this, options__$1, key, test, value)
                 }
                 throw new Error("Invalid arity: " + arguments.length);
               };
-              return G__4873
+              return G__4889
             }()
-          }(name, prefetch, remote, options, filter_fn, limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
+          }(name, limit, prefetch, remote, options, filter_fn, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
           var options__$1 = no_nill_assoc.call(null, options, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), prefetch, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true));
           var options__$2 = no_nill_assoc.call(null, options__$1, new cljs.core.Keyword(null, "remote", "remote", 4374260664), remote, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), remote, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true));
-          var options_js = cljs.core.clj__GT_js.call(null, options__$2);
+          var options__$3 = no_nill_assoc.call(null, options__$2, new cljs.core.Keyword(null, "limit", "limit", 1116880685), limit);
+          var options_js = cljs.core.clj__GT_js.call(null, options__$3);
           console.log([cljs.core.str("prefetch: "), cljs.core.str(prefetch)].join(""));
           console.log([cljs.core.str("options: "), cljs.core.str(JSON.stringify(options_js))].join(""));
           return options_js
@@ -22630,16 +22631,16 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
         return null
       }
     }
-  }(limit, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
+  }(value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
   attrs.$observe("lovTypeahead", set_up_typeahead);
   attrs.$observe("lovRemote", set_up_typeahead);
   scope.$watch(lov_model, function(value) {
     return element.val(value[value_key])
   });
-  var G__4872 = element;
-  G__4872.on("typeahead:selected", update_model);
-  G__4872.on("typeahead:autocompleted", update_model);
-  return G__4872
+  var G__4888 = element;
+  G__4888.on("typeahead:selected", update_model);
+  G__4888.on("typeahead:autocompleted", update_model);
+  return G__4888
 };
 lov_typeahead.directive.lovTypeaheadModule = angular.module("lovTypeahead", cljs.core.clj__GT_js.call(null, cljs.core.PersistentVector.EMPTY));
 lov_typeahead.directive.lovTypeaheadModule.directive("lovTypeahead", function() {

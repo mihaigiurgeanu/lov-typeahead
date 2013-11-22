@@ -32,6 +32,17 @@ describe('lov-typeahead sample usage page', function() {
 						});
 			});
 
+			it('displays uses lov-limit attribute to set the number of items displayed', function() {
+				var input = browser.findElement(by.css('input[x-lov-typeahead="test"]'));
+				input.clear();
+				input.sendKeys('A');
+				browser.sleep(2000);
+				
+				element.all(by.className('tt-suggestion')).count().then(function(num) {
+					expect(num).not.toBe(5);
+					expect(num).toBe(8);
+				});
+			});
 			it('selects a Anguilla after typing Ang<tab>', function() {
 				var input = browser.findElement(by.css('input[x-lov-typeahead="test"]'));
 				input.clear();

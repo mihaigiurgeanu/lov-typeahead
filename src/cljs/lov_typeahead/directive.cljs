@@ -3,8 +3,7 @@
 
 (defn link-typeahead 
   "The directive linking function that configs the typeahead element"
-  [scope element attrs] (let [limit (.-lovLimit attrs)
-                              value-key (.-lovValueKey attrs)
+  [scope element attrs] (let [value-key (.-lovValueKey attrs)
                               lov-model (.-lovModel attrs)
                               dataset-is-valid-attr (.-lovDatasetIsValid attrs)
                               dataset-is-valid (if (nil? dataset-is-valid-attr) true
@@ -25,6 +24,7 @@
                                                    (.log js/console "setup the typehead")
                                                    (.typeahead element 
                                                      (let [name (.-lovTypeahead attrs)
+                                                           limit (.-lovLimit attrs)
                                                            prefetch (.-lovPrefetch attrs)
                                                            remote (.-lovRemote attrs)
                                                            options {:name name}
@@ -38,6 +38,7 @@
                                                                                (assoc options key (clj->js value)))))
                                                            options (no-nill-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
                                                            options (no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
+                                                           options (no-nill-assoc options :limit limit)
                                                            options-js (clj->js options)]
                                                        (.log js/console (str "prefetch: " prefetch))
                                                        (.log js/console (str "options: " (.stringify js/JSON options-js)))
