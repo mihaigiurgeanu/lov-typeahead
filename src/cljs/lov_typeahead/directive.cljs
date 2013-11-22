@@ -21,7 +21,6 @@
                          (if (>= 1 (count fields'))
                            crt
                            (do
-                             (.log js/console (str "aget " (first fields')))
                              (let [this-field-name (first fields')
                                    safe-field (fn [val] 
                                                 (if (or (nil? val) (undefined? val))
@@ -46,7 +45,6 @@
                                                                           (.$eval scope (str "(" dataset-is-valid-attr ")? true:false")))]
                                                    (.typeahead element "destroy")
                                                    (when dataset-is-valid
-                                                     (.log js/console "setup the typehead")
                                                      (.typeahead element 
                                                        (let [name (.-lovTypeahead attrs)
                                                              limit (.-lovLimit attrs)
@@ -58,7 +56,6 @@
                                                              options (no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
                                                              options (no-nill-assoc options :limit limit)
                                                              options-js (clj->js options)]
-                                                         (.log js/console (str "options: " (.stringify js/JSON options-js)))
                                                          options-js)))))]
                           (.$observe attrs "lovTypeahead" set-up-typeahead)
                           (.$observe attrs "lovRemote" set-up-typeahead)

@@ -4332,7 +4332,6 @@ function Xd(a, b, c) {
       if(1 >= Q(c)) {
         return b
       }
-      console.log([z("aget "), z(I(c))].join(""));
       var k = I(c), b = function(a, b, c) {
         return function(b) {
           return null == b || void 0 === b ? a[c] = Jb : b
@@ -4351,15 +4350,14 @@ function Yd(a, b, c) {
     return function() {
       var g = c.lovDatasetIsValid, s = null == g ? !0 : a.$eval([z("("), z(g), z(")? true:false")].join(""));
       b.typeahead("destroy");
-      return u(s) ? (console.log("setup the typehead"), b.typeahead(function() {
+      return u(s) ? b.typeahead(function() {
         var a = c.lovTypeahead, b = c.lovLimit, x = c.lovPrefetch, G = c.lovRemote, O = bb([Md, a]), a = function(a, b, c, d, e, g, h, k) {
           return function(a) {
             return Dd(Vd(k, Id.d(a)))
           }
-        }(a, b, x, G, O, g, s, d, e, h), x = Wd.l(O, Qd, x, bb([Od, x, Ld, a])), G = Wd.l(x, Jd, G, bb([Od, G, Ld, a])), b = Wd.c(G, Pd, b), b = Dd(b);
-        console.log([z("options: "), z(JSON.stringify(b))].join(""));
-        return b
-      }())) : null
+        }(a, b, x, G, O, g, s, d, e, h), x = Wd.l(O, Qd, x, bb([Od, x, Ld, a])), G = Wd.l(x, Jd, G, bb([Od, G, Ld, a])), b = Wd.c(G, Pd, b);
+        return Dd(b)
+      }()) : null
     }
   }(d, e, g);
   c.$observe("lovTypeahead", h);
