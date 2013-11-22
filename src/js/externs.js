@@ -19,6 +19,14 @@ ng.$compile = function () {};
 ng.$compile.directive = function() {};
 ng.$compile.direrctive.Attributes = {};
 ng.$compile.direrctive.Attributes.$observe = function() {};
+ng.$compile.direrctive.Attributes.lovTypeahead = null;
+ng.$compile.direrctive.Attributes.lovLimit = null;
+ng.$compile.direrctive.Attributes.lovPrefetch = null;
+ng.$compile.direrctive.Attributes.lovRemote = null;
+ng.$compile.direrctive.Attributes.lovDatasetIsValid = null;
+ng.$compile.direrctive.Attributes.lovModel = null;
+ng.$compile.direrctive.Attributes.lovValueKey = null;
+
 
 ng.$rootScope = {};
 ng.$rootScope.Scope = {};

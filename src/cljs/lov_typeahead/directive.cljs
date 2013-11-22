@@ -68,7 +68,6 @@
                                                              options (no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
                                                              options (no-nill-assoc options :limit limit)
                                                              options-js (clj->js options)]
-                                                         (.log js/console (str "prefetch: " prefetch))
                                                          (.log js/console (str "options: " (.stringify js/JSON options-js)))
                                                          options-js)))))]
                           (.log js/console "lov-typeahead directive linking")
