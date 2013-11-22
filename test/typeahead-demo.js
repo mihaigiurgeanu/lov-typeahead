@@ -3,4 +3,6 @@ angular.module('typeaheadDirectiveSample', ['lovTypeahead'])
 	  $scope.country = {id:null, name:"No country selected"};
 	  $scope.dataName="data";
 	  $scope.datasetIsValid = true;
+	  
+	  $scope.address = {country:null};
   });

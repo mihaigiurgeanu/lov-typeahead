@@ -24,3 +24,4 @@ ng.$rootScope = {};
 ng.$rootScope.Scope = {};
 ng.$rootScope.Scope.$watch = function () {};
 ng.$rootScope.Scope.$eval = function () {};
+ng.$rootScope.Scope.$digest = function () {};

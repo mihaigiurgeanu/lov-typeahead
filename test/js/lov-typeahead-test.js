@@ -58,5 +58,26 @@ describe('lov-typeahead sample usage page', function() {
 	
 	describe('for prefetch only use-case', test_sets_for_url('http://localhost:8000/typeahead-demo-prefetch.html'));
 	describe('for remote only use-case', test_sets_for_url('http://localhost:8000/typeahead-demo-remote.html'));
+	
 
 });
+
+describe('model composed of multi-level vars', function () {
+	var countryId = element(by.binding('{{address.country.id}}'));
+	var countryName = element(by.binding('{{address.country.name}}'));
+
+	
+	beforeEach(function() {
+		browser.get('http://localhost:8000/typeahead-demo-multilevel.html');
+	});
+	
+	it('selects a Anguilla after typing Ang<tab>', function() {
+		var input = browser.findElement(by.css('input[x-lov-typeahead="test"]'));
+		input.clear();
+		input.sendKeys('Ang');
+		input.sendKeys('\t');
+		expect(countryId.getText()).toEqual("5");
+		expect(countryName.getText()).toEqual("Anguilla");
+	});
+});
+
