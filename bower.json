@@ -1,6 +1,6 @@
 {
   "name": "lov-typeahead",
-  "version": "0.1.0-SNAPSHOT-7",
+  "version": "0.1.0-SNAPSHOT-9",
   "homepage": "https://github.com/mihaigiurgeanu/lov-typeahead",
   "authors": [
     "Mihai Giurgeanu <mihai.giurgeanu@genesissoftware.ro>"
@@ -23,7 +23,7 @@
     "target/stale/*"
   ],
   "dependencies": {
-    "typeahead.js": "0.9.3"
+    "typeahead.js": "~0.9.3"
   },
   "devDependencies": {
     "typeahead.js": "~0.9.3"

@@ -27,16 +27,21 @@
                                                      (let [name (.-lovTypeahead attrs)
                                                            prefetch (.-lovPrefetch attrs)
                                                            remote (.-lovRemote attrs)
-                                                           options {:name (str name "-123")}
+                                                           options {:name name}
                                                            filter-fn #(d/json->dataset value-key %)
-                                                           options (if (nil? prefetch) options 
-                                                                     (assoc options :prefetch (clj->js {:url prefetch
-                                                                                                        :filter filter-fn})))
-                                                           options (if (nil? remote) options
-                                                                     (assoc options :remote (clj->js {:url remote
-                                                                                                      :filter filter-fn})))]
+                                                           no-nill-assoc (fn 
+                                                                           ([options key value] 
+                                                                             (if (nil? value) options
+                                                                               (assoc options key (clj->js value))))
+                                                                           ([options key test value] 
+                                                                             (if (nil? test) options
+                                                                               (assoc options key (clj->js value)))))
+                                                           options (no-nill-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
+                                                           options (no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
+                                                           options-js (clj->js options)]
                                                        (.log js/console (str "prefetch: " prefetch))
-                                                       (clj->js options)))))]
+                                                       (.log js/console (str "options: " (.stringify js/JSON options-js)))
+                                                       options-js))))]
                           (.$observe attrs "lovTypeahead" set-up-typeahead)
                           (.$observe attrs "lovRemote" set-up-typeahead)
                           (.$watch scope lov-model (fn [value] (.val element (aget value value-key))))
