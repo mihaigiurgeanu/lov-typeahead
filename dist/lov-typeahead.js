@@ -22559,9 +22559,7 @@ goog.require("lov_typeahead.dataset");
 lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element, attrs) {
   var value_key = attrs.lovValueKey;
   var lov_model = attrs.lovModel;
-  var dataset_is_valid_attr = attrs.lovDatasetIsValid;
-  var dataset_is_valid = dataset_is_valid_attr == null ? true : scope.$eval(dataset_is_valid_attr);
-  var update_model = function(value_key, lov_model, dataset_is_valid_attr, dataset_is_valid) {
+  var update_model = function(value_key, lov_model) {
     return function(event, datum, name) {
       console.log([cljs.core.str("update model, dataset name: "), cljs.core.str(name)].join(""));
       console.log([cljs.core.str("update model, datum: "), cljs.core.str(JSON.stringify(datum))].join(""));
@@ -22572,10 +22570,13 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
       console.log([cljs.core.str("update model, value after update: "), cljs.core.str(JSON.stringify(scope[lov_model]))].join(""));
       return scope.$digest()
     }
-  }(value_key, lov_model, dataset_is_valid_attr, dataset_is_valid);
-  var set_up_typeahead = function(value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
+  }(value_key, lov_model);
+  var set_up_typeahead = function(value_key, lov_model, update_model) {
     return function() {
+      var dataset_is_valid_attr = attrs.lovDatasetIsValid;
+      var dataset_is_valid = dataset_is_valid_attr == null ? true : scope.$eval([cljs.core.str("("), cljs.core.str(dataset_is_valid_attr), cljs.core.str(")? true:false")].join(""));
       console.log([cljs.core.str("dataset name: "), cljs.core.str(attrs.lovTypeahead)].join(""));
+      console.log([cljs.core.str("dataset-is-valid: "), cljs.core.str(dataset_is_valid)].join(""));
       element.typeahead("destroy");
       if(cljs.core.truth_(dataset_is_valid)) {
         console.log("setup the typehead");
@@ -22585,40 +22586,40 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
           var prefetch = attrs.lovPrefetch;
           var remote = attrs.lovRemote;
           var options = cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "name", "name", 1017277949), name], true);
-          var filter_fn = function(name, limit, prefetch, remote, options, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
-            return function(p1__4886_SHARP_) {
-              return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4886_SHARP_)
+          var filter_fn = function(name, limit, prefetch, remote, options, dataset_is_valid_attr, dataset_is_valid, value_key, lov_model, update_model) {
+            return function(p1__4902_SHARP_) {
+              return lov_typeahead.dataset.json__GT_dataset.call(null, value_key, p1__4902_SHARP_)
             }
-          }(name, limit, prefetch, remote, options, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
-          var no_nill_assoc = function(name, limit, prefetch, remote, options, filter_fn, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model) {
+          }(name, limit, prefetch, remote, options, dataset_is_valid_attr, dataset_is_valid, value_key, lov_model, update_model);
+          var no_nill_assoc = function(name, limit, prefetch, remote, options, filter_fn, dataset_is_valid_attr, dataset_is_valid, value_key, lov_model, update_model) {
             return function() {
-              var G__4889 = null;
-              var G__4889__3 = function(options__$1, key, value) {
+              var G__4905 = null;
+              var G__4905__3 = function(options__$1, key, value) {
                 if(value == null) {
                   return options__$1
                 }else {
                   return cljs.core.assoc.call(null, options__$1, key, cljs.core.clj__GT_js.call(null, value))
                 }
               };
-              var G__4889__4 = function(options__$1, key, test, value) {
+              var G__4905__4 = function(options__$1, key, test, value) {
                 if(test == null) {
                   return options__$1
                 }else {
                   return cljs.core.assoc.call(null, options__$1, key, cljs.core.clj__GT_js.call(null, value))
                 }
               };
-              G__4889 = function(options__$1, key, test, value) {
+              G__4905 = function(options__$1, key, test, value) {
                 switch(arguments.length) {
                   case 3:
-                    return G__4889__3.call(this, options__$1, key, test);
+                    return G__4905__3.call(this, options__$1, key, test);
                   case 4:
-                    return G__4889__4.call(this, options__$1, key, test, value)
+                    return G__4905__4.call(this, options__$1, key, test, value)
                 }
                 throw new Error("Invalid arity: " + arguments.length);
               };
-              return G__4889
+              return G__4905
             }()
-          }(name, limit, prefetch, remote, options, filter_fn, value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
+          }(name, limit, prefetch, remote, options, filter_fn, dataset_is_valid_attr, dataset_is_valid, value_key, lov_model, update_model);
           var options__$1 = no_nill_assoc.call(null, options, new cljs.core.Keyword(null, "prefetch", "prefetch", 4020204905), prefetch, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), prefetch, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true));
           var options__$2 = no_nill_assoc.call(null, options__$1, new cljs.core.Keyword(null, "remote", "remote", 4374260664), remote, cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null, "url", "url", 1014020321), remote, new cljs.core.Keyword(null, "filter", "filter", 4034379498), filter_fn], true));
           var options__$3 = no_nill_assoc.call(null, options__$2, new cljs.core.Keyword(null, "limit", "limit", 1116880685), limit);
@@ -22631,16 +22632,16 @@ lov_typeahead.directive.link_typeahead = function link_typeahead(scope, element,
         return null
       }
     }
-  }(value_key, lov_model, dataset_is_valid_attr, dataset_is_valid, update_model);
+  }(value_key, lov_model, update_model);
   attrs.$observe("lovTypeahead", set_up_typeahead);
   attrs.$observe("lovRemote", set_up_typeahead);
   scope.$watch(lov_model, function(value) {
     return element.val(value[value_key])
   });
-  var G__4888 = element;
-  G__4888.on("typeahead:selected", update_model);
-  G__4888.on("typeahead:autocompleted", update_model);
-  return G__4888
+  var G__4904 = element;
+  G__4904.on("typeahead:selected", update_model);
+  G__4904.on("typeahead:autocompleted", update_model);
+  return G__4904
 };
 lov_typeahead.directive.lovTypeaheadModule = angular.module("lovTypeahead", cljs.core.clj__GT_js.call(null, cljs.core.PersistentVector.EMPTY));
 lov_typeahead.directive.lovTypeaheadModule.directive("lovTypeahead", function() {
