@@ -81,3 +81,57 @@ describe('model composed of multi-level vars', function () {
 	});
 });
 
+describe('The lov-model', function() {
+	var countryId = element(by.binding('{{address.country.id}}'));
+	var countryName = element(by.binding('{{address.country.name}}'));
+	var clearButton = element(by.id('clear-model'));
+	var setButton = element(by.id('set-new-mode'));
+
+	
+	beforeEach(function() {
+		browser.get('http://localhost:8000/typeahead-demo-model-update.html');
+	});
+	
+	it('can have a default value', function() {
+		expect(countryId.getText()).toEqual('222');
+		expect(countryName.getText()).toEqual('Initial Value');
+	});
+	
+	it('can be reset programatically', function() {
+		clearButton.click();
+		expect(countryId.getText()).toEqual('');
+		expect(countryName.getText()).toEqual('');
+	});
+	
+	it('can be set programatically', function() {
+		setButton.click();
+		expect(countryId.getText()).toEqual('128');
+		expect(countryName.getText()).toEqual('Test Country');
+	});
+	
+	describe('the typeahead control', function() {
+		var searchCountry = function () {
+			var input = browser.findElement(by.css('input[x-lov-typeahead="test"]'));
+			input.clear();
+			input.sendKeys('Ang');
+			input.sendKeys('\t');
+			expect(countryId.getText()).toEqual("5");
+			expect(countryName.getText()).toEqual("Anguilla");
+		};
+		
+		it('can be searched when after default value loaded', function() {
+			searchCountry();
+		});
+		
+		it('can be searched after value cleared', function () {
+			clearButton.click();
+			searchCountry();
+		});
+		
+		it('can be searche after value was set', function () {
+			setButton.click();
+			searchCountry();
+		});
+	});
+});
+
