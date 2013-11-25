@@ -50,6 +50,7 @@
                                                              options (m/no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
                                                              options (m/no-nill-assoc options :limit limit)
                                                              options-js (clj->js options)]
+                                                         (.log js/console (str "options: " (.stringify js/JSON options-js)))
                                                          options-js)))))]
                           (.$observe attrs "lovTypeahead" set-up-typeahead)
                           (.$observe attrs "lovRemote" set-up-typeahead)
