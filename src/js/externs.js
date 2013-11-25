@@ -27,6 +27,8 @@ ng.$compile.direrctive.Attributes.lovDatasetIsValid = null;
 ng.$compile.direrctive.Attributes.lovModel = null;
 ng.$compile.direrctive.Attributes.lovValueKey = null;
 ng.$compile.direrctive.Attributes.lovLocal = null;
+ng.$compile.direrctive.Attributes.lovTemplate = null;
+ng.$compile.direrctive.Attributes.$set = function () {};
 
 ng.$rootScope = {};
 ng.$rootScope.Scope = {};

@@ -24,42 +24,56 @@
                                       (rest fields')))))))]
     (aset model-parent model-field val)))
 
-(defn link-typeahead 
+(defn templated-link-typeahead 
   "The directive linking function that configs the typeahead element"
-  [scope element attrs] (let [value-key (.-lovValueKey attrs)
-                              lov-model (.-lovModel attrs)
-                              update-model (fn [event datum name]
-                                             (set-in-scope scope lov-model (.-object datum))
-                                             (.$digest scope))
-                              set-up-typeahead (fn []
-                                                 (let [dataset-is-valid-attr (.-lovDatasetIsValid attrs)
-                                                       dataset-is-valid (if (nil? dataset-is-valid-attr) true
-                                                                          (.$eval scope (str "(" dataset-is-valid-attr ")? true:false")))]
-                                                   (.typeahead element "destroy")
-                                                   (when dataset-is-valid
-                                                     (.typeahead element 
-                                                       (let [name (.-lovTypeahead attrs)
-                                                             limit (.-lovLimit attrs)
-                                                             local (.-lovLocal attrs)
-                                                             prefetch (.-lovPrefetch attrs)
-                                                             remote (.-lovRemote attrs)
-                                                             options {:name name}
-                                                             filter-fn #(d/json->dataset value-key %)
-                                                             options (m/no-nil-assoc options :local local (filter-fn (.$eval scope local)))
-                                                             options (m/no-nil-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
-                                                             options (m/no-nil-assoc options :remote remote {:url remote, :filter filter-fn})
-                                                             options (m/no-nil-assoc options :limit limit)
-                                                             options-js (clj->js options)]
-                                                         (.log js/console (str "options: " (.stringify js/JSON options-js)))
-                                                         options-js)))))]
-                          (.$observe attrs "lovTypeahead" set-up-typeahead)
-                          (.$observe attrs "lovRemote" set-up-typeahead)
-                          (.$watch scope lov-model (fn [value] (.val element (if (or (nil? value) (undefined? value)) 
-                                                                               "" 
-                                                                               (aget value value-key)))))
-                          (doto element
-                            (.on "typeahead:selected" update-model)
-                            (.on "typeahead:autocompleted" update-model))))
+  [template $rootScope $compile]
+  (fn [scope element attrs] (let [value-key (.-lovValueKey attrs)
+                                  lov-model (.-lovModel attrs)
+                                  update-model (fn [event datum name]
+                                                 (set-in-scope scope lov-model (.-object datum))
+                                                 (.$digest scope))
+                                  set-up-typeahead (fn []
+                                                     (let [dataset-is-valid-attr (.-lovDatasetIsValid attrs)
+                                                           dataset-is-valid (if (nil? dataset-is-valid-attr) true
+                                                                              (.$eval scope (str "(" dataset-is-valid-attr ")? true:false")))]
+                                                       (.typeahead element "destroy")
+                                                       (when dataset-is-valid
+                                                         (.typeahead element 
+                                                           (let [name (.-lovTypeahead attrs)
+                                                                 limit (.-lovLimit attrs)
+                                                                 local (.-lovLocal attrs)
+                                                                 prefetch (.-lovPrefetch attrs)
+                                                                 remote (.-lovRemote attrs)
+                                                                 options {:name name}
+                                                                 filter-fn #(d/json->dataset value-key %)
+                                                                 options (m/no-nil-assoc options :local local (filter-fn (.$eval scope local)))
+                                                                 options (m/no-nil-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
+                                                                 options (m/no-nil-assoc options :remote remote {:url remote, :filter filter-fn})
+                                                                 options (m/no-nil-assoc options :limit limit)
+                                                                 options (m/no-nil-assoc options :template template (let [linkFn ($compile template)]
+                                                                                                                      (fn [context] 
+                                                                                                                        (let [scope (.$new $rootScope)
+                                                                                                                              element (do
+                                                                                                                                        (aset scope "id" (.-id (.-object context)))
+                                                                                                                                        (aset scope "name" (.-name (.-object context)))
+                                                                                                                                        (linkFn scope))
+                                                                                                                              html (do
+                                                                                                                                     (.$apply scope)
+                                                                                                                                     (.html element))]
+                                                                                                                          (.$destroy scope)
+                                                                                                                          html))))
+                                                                 options-js (clj->js options)]
+                                                             (.log js/console (str "options: " (.stringify js/JSON options-js)))
+                                                             options-js)))))]
+                              (.log js/console (str "the template: " template))
+                              (.$observe attrs "lovTypeahead" set-up-typeahead)
+                              (.$observe attrs "lovRemote" set-up-typeahead)
+                              (.$watch scope lov-model (fn [value] (.val element (if (or (nil? value) (undefined? value)) 
+                                                                                   "" 
+                                                                                   (aget value value-key)))))
+                              (doto element
+                                (.on "typeahead:selected" update-model)
+                                (.on "typeahead:autocompleted" update-model)))))
 
 (def lovTypeaheadModule
    "The definition of the lov-typeahead's module"
@@ -67,6 +81,11 @@
 
 (.directive lovTypeaheadModule
   "lovTypeahead"
-  (fn []
-    (clj->js {:link link-typeahead})))
+  (clj->js ["$rootScope", "$compile",
+            (fn [$rootScope, $compile]
+              (clj->js {:compile (fn [tElement tAttrs]
+                                   (let [template (.-lovTemplate tAttrs)]
+                                     (when template (.$set tAttrs "lovTemplate" ""))
+                                     (.log js/console "Creating the link function")
+                                     (templated-link-typeahead template $rootScope $compile)))}))]))
 
