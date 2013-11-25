@@ -26,7 +26,7 @@ ng.$compile.direrctive.Attributes.lovRemote = null;
 ng.$compile.direrctive.Attributes.lovDatasetIsValid = null;
 ng.$compile.direrctive.Attributes.lovModel = null;
 ng.$compile.direrctive.Attributes.lovValueKey = null;
-
+ng.$compile.direrctive.Attributes.lovLocal = null;
 
 ng.$rootScope = {};
 ng.$rootScope.Scope = {};

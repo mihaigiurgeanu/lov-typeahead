@@ -1,14 +1,6 @@
 (ns lov-typeahead.directive
-  (:require [lov-typeahead.dataset :as d]))
-
-(defn no-nill-assoc
-  "Helper function used to create the typeahead options map based on existence or not of optional attributes on the input text tag."
-  ([options key value] 
-    (if (nil? value) options
-      (assoc options key value)))
-  ([options key test value] 
-    (if (nil? test) options
-      (assoc options key value))))
+  (:require [lov-typeahead.dataset :as d])
+  (:require-macros [lov-typeahead.macros :as m]))
 
 (defn set-in-scope
   "Sets a value to an angular js model in a given scope"
@@ -48,13 +40,15 @@
                                                      (.typeahead element 
                                                        (let [name (.-lovTypeahead attrs)
                                                              limit (.-lovLimit attrs)
+                                                             local (.-lovLocal attrs)
                                                              prefetch (.-lovPrefetch attrs)
                                                              remote (.-lovRemote attrs)
                                                              options {:name name}
                                                              filter-fn #(d/json->dataset value-key %)
-                                                             options (no-nill-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
-                                                             options (no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
-                                                             options (no-nill-assoc options :limit limit)
+                                                             options (m/no-nill-assoc options :local local (filter-fn (.$eval scope local)))
+                                                             options (m/no-nill-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
+                                                             options (m/no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
+                                                             options (m/no-nill-assoc options :limit limit)
                                                              options-js (clj->js options)]
                                                          options-js)))))]
                           (.$observe attrs "lovTypeahead" set-up-typeahead)
