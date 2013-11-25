@@ -9,6 +9,7 @@ jQuery.fn = {};
 jQuery.fn.typeahead = function () {};
 jQuery.fn.on = function () {};
 jQuery.fn.val = function () {};
+jQuery.fn.html = function () {};
 
 var angular = {};
 angular.module = function() {};
@@ -31,7 +32,11 @@ ng.$compile.direrctive.Attributes.lovTemplate = null;
 ng.$compile.direrctive.Attributes.$set = function () {};
 
 ng.$rootScope = {};
+ng.$rootScope.$new = new function() {};
+
 ng.$rootScope.Scope = {};
+ng.$rootScope.Scope.$apply = function () {};
+ng.$rootScope.Scope.$destroy = function () {};
 ng.$rootScope.Scope.$watch = function () {};
 ng.$rootScope.Scope.$eval = function () {};
 ng.$rootScope.Scope.$digest = function () {};
