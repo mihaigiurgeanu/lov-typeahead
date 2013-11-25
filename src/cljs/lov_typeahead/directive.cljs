@@ -45,10 +45,10 @@
                                                              remote (.-lovRemote attrs)
                                                              options {:name name}
                                                              filter-fn #(d/json->dataset value-key %)
-                                                             options (m/no-nill-assoc options :local local (filter-fn (.$eval scope local)))
-                                                             options (m/no-nill-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
-                                                             options (m/no-nill-assoc options :remote remote {:url remote, :filter filter-fn})
-                                                             options (m/no-nill-assoc options :limit limit)
+                                                             options (m/no-nil-assoc options :local local (filter-fn (.$eval scope local)))
+                                                             options (m/no-nil-assoc options :prefetch prefetch {:url prefetch, :filter filter-fn})
+                                                             options (m/no-nil-assoc options :remote remote {:url remote, :filter filter-fn})
+                                                             options (m/no-nil-assoc options :limit limit)
                                                              options-js (clj->js options)]
                                                          (.log js/console (str "options: " (.stringify js/JSON options-js)))
                                                          options-js)))))]
