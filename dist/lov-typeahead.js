@@ -1123,8 +1123,8 @@ var zb = function xb(b, c) {
       this.ob = h;
       this.o = 0;
       this.f = 393217
-    }, fa.bb = !0, fa.ab = "cljs.core/t5062", fa.nb = function(b) {
-      return D(b, "cljs.core/t5062")
+    }, fa.bb = !0, fa.ab = "cljs.core/t5063", fa.nb = function(b) {
+      return D(b, "cljs.core/t5063")
     }, fa.prototype.call = function() {
       function b(d, h) {
         d = this;
@@ -4273,7 +4273,9 @@ var Qd = function() {
   b.h = c.h;
   return b
 }();
-function Rd(a, b) {
+var fb = new W(null, "dup", "dup"), Rd = new W(null, "remote", "remote"), Sd = new W(null, "template", "template"), Td = new W(null, "filter", "filter"), Pd = new W(null, "keywordize-keys", "keywordize-keys"), Ud = new W(null, "name", "name"), cb = new W(null, "flush-on-newline", "flush-on-newline"), Vd = new W(null, "compile", "compile"), Wd = new W(null, "object", "object"), Xd = new W(null, "local", "local"), Yd = new W(null, "url", "url"), Zd = new W(null, "limit", "limit"), v = new W(null, "else", 
+"else"), db = new W(null, "readably", "readably"), eb = new W(null, "meta", "meta"), $d = new W(null, "prefetch", "prefetch"), ae = new W(null, "value", "value"), be = new W(null, "tokens", "tokens");
+function ce(a, b) {
   if(0 >= b || b >= 2 + U(a)) {
     return qb.a(Oc(T("", qc.a(y, H(a)))), "")
   }
@@ -4286,10 +4288,10 @@ function Rd(a, b) {
   var c = b - 2;
   return qb.a(Oc(T("", Rc.c(Oc(qc.a(y, H(a))), 0, c))), Sb.a(a, c))
 }
-var Sd = function() {
+var de = function() {
   function a(a, b, c) {
     if(P.a("" + y(b), "/(?:)/")) {
-      b = Rd(a, c)
+      b = ce(a, c)
     }else {
       if(1 > c) {
         b = Oc(("" + y(a)).split(b))
@@ -4351,16 +4353,14 @@ var Sd = function() {
   c.c = a;
   return c
 }();
-function Td(a, b) {
+function ee(a, b) {
   return qc.a(function(b) {
     var d = tb.a(b, a);
-    return bb([Ud, d, Vd, Sd.a(d, /\s+/), Wd, b])
+    return bb([ae, d, be, de.a(d, /\s+/), Wd, b])
   }, b)
 }
-;var fb = new W(null, "dup", "dup"), Xd = new W(null, "remote", "remote"), Yd = new W(null, "template", "template"), Zd = new W(null, "filter", "filter"), Pd = new W(null, "keywordize-keys", "keywordize-keys"), $d = new W(null, "name", "name"), cb = new W(null, "flush-on-newline", "flush-on-newline"), ae = new W(null, "compile", "compile"), Wd = new W(null, "object", "object"), be = new W(null, "local", "local"), ce = new W(null, "url", "url"), de = new W(null, "limit", "limit"), v = new W(null, "else", 
-"else"), db = new W(null, "readably", "readably"), eb = new W(null, "meta", "meta"), ee = new W(null, "prefetch", "prefetch"), Ud = new W(null, "value", "value"), Vd = new W(null, "tokens", "tokens");
-function fe(a, b, c) {
-  var d = Sd.a(b, /\./), e = pb(d);
+;function fe(a, b, c) {
+  var d = de.a(b, /\./), e = pb(d);
   (function() {
     for(var b = a, c = d;;) {
       if(1 >= U(c)) {
@@ -4386,11 +4386,11 @@ function ge(a, b, c) {
         var m = g.lovDatasetIsValid, x = null == m ? !0 : d.$eval([y("("), y(m), y(")? true:false")].join(""));
         e.typeahead("destroy");
         return s(x) ? e.typeahead(function() {
-          var e = g.lovTypeahead, G = g.lovLimit, N = g.lovLocal, R = g.lovPrefetch, Q = g.lovRemote, oa = bb([$d, e]), S = function(a, b, c, d, e, g, h, k, l) {
+          var e = g.lovTypeahead, G = g.lovLimit, N = g.lovLocal, R = g.lovPrefetch, Q = g.lovRemote, oa = bb([Ud, e]), S = function(a, b, c, d, e, g, h, k, l) {
             return function(a) {
-              return Ld(Td(l, Qd.d(a)))
+              return Ld(ee(l, Qd.d(a)))
             }
-          }(e, G, N, R, Q, oa, m, x, h, k, l), uc = null == N ? oa : vb.c(oa, be, S(d.$eval(N))), vc = null == R ? uc : vb.c(uc, ee, bb([ce, R, Zd, S])), wc = null == Q ? vc : vb.c(vc, Xd, bb([ce, Q, Zd, S])), xc = null == G ? wc : vb.c(wc, de, G), Xb = null == a ? xc : vb.c(xc, Yd, function() {
+          }(e, G, N, R, Q, oa, m, x, h, k, l), uc = null == N ? oa : vb.c(oa, Xd, S(d.$eval(N))), vc = null == R ? uc : vb.c(uc, $d, bb([Yd, R, Td, S])), wc = null == Q ? vc : vb.c(vc, Rd, bb([Yd, Q, Td, S])), xc = null == G ? wc : vb.c(wc, Zd, G), Xb = null == a ? xc : vb.c(xc, Sd, function() {
             return function(a, c, d, e, g, h, k, l, m, p, t, x, A, E, G, M, N) {
               return function(R) {
                 var Q = b.$new(), S = function() {
@@ -4427,7 +4427,7 @@ function ge(a, b, c) {
   }
 }
 angular.module("lovTypeahead", Ld(Lc)).directive("lovTypeahead", Ld(Nc(["$rootScope", "$compile", function(a, b) {
-  return Ld(bb([ae, function(c, d) {
+  return Ld(bb([Vd, function(c, d) {
     var e = d.lovTemplate;
     s(e) && d.$set("lovTemplate", "");
     console.log("Creating the link function");
