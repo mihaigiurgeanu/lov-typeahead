@@ -57,9 +57,9 @@
                                                                                                                                             properties (keys (js->clj the-object))]
                                                                                                                                         (doall (map #(aset scope % (aget the-object %)) properties))
                                                                                                                                         (linkFn scope))
-                                                                                                                              html (do
+                                                                                                                              html (let [dom-element (aget element 0)]
                                                                                                                                      (.$apply scope)
-                                                                                                                                     (.html element))]
+                                                                                                                                     (aget dom-element "outerHTML"))]
                                                                                                                           (.$destroy scope)
                                                                                                                           html))))
                                                                  options-js (clj->js options)]

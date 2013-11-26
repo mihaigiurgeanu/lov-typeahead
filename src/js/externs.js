@@ -10,6 +10,7 @@ jQuery.fn.typeahead = function () {};
 jQuery.fn.on = function () {};
 jQuery.fn.val = function () {};
 jQuery.fn.html = function () {};
+jQuery.fn.prop = function() {};
 
 var angular = {};
 angular.module = function() {};
