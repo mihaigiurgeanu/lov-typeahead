@@ -55,7 +55,6 @@
                                                                                                                         (let [scope (.$new $rootScope)
                                                                                                                               element (let [the-object (.-object context)
                                                                                                                                             properties (keys (js->clj the-object))]
-                                                                                                                                        (.log js/console (str "context.object properties: " (.stringify js/JSON (clj->js properties))))
                                                                                                                                         (doall (map #(aset scope % (aget the-object %)) properties))
                                                                                                                                         (linkFn scope))
                                                                                                                               html (do
@@ -64,9 +63,7 @@
                                                                                                                           (.$destroy scope)
                                                                                                                           html))))
                                                                  options-js (clj->js options)]
-                                                             (.log js/console (str "options: " (.stringify js/JSON options-js)))
                                                              options-js)))))]
-                              (.log js/console (str "the template: " template))
                               (.$observe attrs "lovTypeahead" set-up-typeahead)
                               (.$observe attrs "lovRemote" set-up-typeahead)
                               (.$watch scope lov-model (fn [value] (.val element (if (or (nil? value) (undefined? value)) 
@@ -87,6 +84,5 @@
               (clj->js {:compile (fn [tElement tAttrs]
                                    (let [template (.-lovTemplate tAttrs)]
                                      (when template (.$set tAttrs "lovTemplate" ""))
-                                     (.log js/console "Creating the link function")
                                      (templated-link-typeahead template $rootScope $compile)))}))]))
 
