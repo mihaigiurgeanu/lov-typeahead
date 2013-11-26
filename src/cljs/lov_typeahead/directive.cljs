@@ -53,9 +53,10 @@
                                                                  options (m/no-nil-assoc options :template template (let [linkFn ($compile template)]
                                                                                                                       (fn [context] 
                                                                                                                         (let [scope (.$new $rootScope)
-                                                                                                                              element (do
-                                                                                                                                        (aset scope "id" (.-id (.-object context)))
-                                                                                                                                        (aset scope "name" (.-name (.-object context)))
+                                                                                                                              element (let [the-object (.-object context)
+                                                                                                                                            properties (keys (js->clj the-object))]
+                                                                                                                                        (.log js/console (str "context.object properties: " (.stringify js/JSON (clj->js properties))))
+                                                                                                                                        (doall (map #(aset scope % (aget the-object %)) properties))
                                                                                                                                         (linkFn scope))
                                                                                                                               html (do
                                                                                                                                      (.$apply scope)
