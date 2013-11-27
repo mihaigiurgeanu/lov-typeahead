@@ -21,6 +21,16 @@ testApp.controller('Ctrl', function($scope) {
 		country : null
 	};
 
+	$scope.steps = ["First country", "Secod country", "Third country", "Fourth country"];
+	$scope.steps.countries = [{
+		"id":7,
+		"name":"Armenia"
+	},
+	{
+		"id":8,
+		"name":"Angola"
+	}];
+
 	$scope.listOfValues = {
 			countries: [
 			        	{

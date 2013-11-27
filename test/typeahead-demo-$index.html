@@ -1,0 +1,34 @@
+<!doctype html>
+<html x-ng-app="typeaheadDirectiveSample">
+  <head>
+  	<title>Typeahead LOV sample usage</title>
+  </head>
+  <body x-ng-controller="Ctrl">
+  
+  	<div style="display: table-row;">
+	    <div x-ng-repeat="step in steps" style="display: table-cell;">
+			<ul>
+			<li>{{$index + 1}}. Step: {{step}}
+			<li>Country id: <span>{{steps.countries[$index].id}}</span>
+			<li>Country name: <span>{{steps.countries[$index].name}}</span>
+			</ul>
+		
+		    <div>
+		    	<input type="text" 
+		    	x-lov-typeahead="test" 
+		    	x-lov-prefetch="test-data.json" 
+		    	x-lov-limit="8"
+		    	x-lov-value-key="name"
+		    	x-lov-model="steps.countries[$index]"
+		    	x-lov-dataset-is-valid="datasetIsValid">
+		    </div>
+		</div>
+	</div>
+	
+	<script src="jquery/jquery.min.js"></script>
+	<script src="typeahead.js/dist/typeahead.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.1/angular.min.js"></script>
+    <script src="lov-typeahead.js"></script>
+    <script src="typeahead-demo.js"></script>
+  </body>
+</html>

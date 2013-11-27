@@ -2,26 +2,50 @@
   (:require [lov-typeahead.dataset :as d])
   (:require-macros [lov-typeahead.macros :as m]))
 
+(defn extract-safe-val
+  "Computes parent[index]. If parent parent[index] is null assigns parent[index] = {} and returns new object."
+  [parent index]
+  (let [val (aget parent index)]
+    (if (or (nil? val) (undefined? val))
+      (let [newobj js-obj] 
+        (aset parent index newobj)
+        newobj)
+      val)))
+
+(def indexed-field-re
+  "Regular expression for matching an indexed field (i.e. foo[goo]"
+  #"([^\[]*)\[([^\]]*)\]")
+
 (defn set-in-scope
   "Sets a value to an angular js model in a given scope"
   [scope model val] 
   (let [fields (clojure.string/split model #"\.")
-        model-field (last fields)
+        model-field-part (last fields)
+        model-field (let [indexed-field (re-matches indexed-field-re model-field-part)]
+                      (if indexed-field
+                        (.$eval scope (indexed-field 2))
+                        model-field-part))
         model-parent (do
                        (loop [crt scope
                               fields' fields]
-                         (if (>= 1 (count fields'))
-                           crt
-                           (do
-                             (let [this-field-name (first fields')
-                                   safe-field (fn [val] 
-                                                (if (or (nil? val) (undefined? val))
-                                                  (let [newobj js-obj] 
-                                                    (aset crt this-field-name newobj)
-                                                    newobj)
-                                                  val))]
-                               (recur (safe-field (aget crt this-field-name))
-                                      (rest fields')))))))]
+                           (let [field-part (first fields')
+                                 indexed-field (re-matches indexed-field-re field-part)]
+                             (.log js/console (str "field-part " field-part))
+                             (if indexed-field
+                               (let [this-field-name (indexed-field 1)
+                                     index-value (.$eval scope (indexed-field 2))
+                                     vector-field (extract-safe-val crt this-field-name)]
+                                 (.log js/console (str "this-field-name " this-field-name))
+                                 (.log js/console (str "index-expr " (indexed-field 2)))
+                                 (.log js/console (str "index-value " index-value))
+                                 (if (>= 1 (count fields'))
+                                   vector-field
+                                   (recur (extract-safe-val vector-field index-value) (rest fields'))))
+                               (if (>= 1 (count fields'))
+                                 crt
+                                 (recur (extract-safe-val crt field-part)
+                                 (rest fields')))))))]
+    (.log js/console (str "model-field " model-field))
     (aset model-parent model-field val)))
 
 (defn templated-link-typeahead 
