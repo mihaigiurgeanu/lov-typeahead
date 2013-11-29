@@ -1,6 +1,6 @@
 {
   "name": "lov-typeahead",
-  "version": "0.2.2-SNAPSHOT",
+  "version": "0.2.3-RC.1",
   "homepage": "https://github.com/mihaigiurgeanu/lov-typeahead",
   "authors": [
     "Mihai Giurgeanu <mihai.giurgeanu@genesissoftware.ro>"
