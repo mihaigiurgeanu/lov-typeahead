@@ -50,18 +50,35 @@
 
 (defn templated-link-typeahead 
   "The directive linking function that configs the typeahead element"
-  [template $rootScope $compile]
+  [template $rootScope $compile $timeout]
   (fn [scope element attrs] (let [value-key (.-lovValueKey attrs)
                                   lov-model (.-lovModel attrs)
+                                  lov-disabled (.-lovDisabled attrs)
                                   update-model (fn [event datum name]
+                                                 (.log js/console "updating the model")
                                                  (set-in-scope scope lov-model (.-object datum))
                                                  (.$digest scope))
+                                  set-query-value (fn [value] 
+                                                         (let [text-value (if (or (nil? value) (undefined? value)) 
+                                                                            "" 
+                                                                            (aget value value-key))]
+                                                         (.log js/console (str "set the query value from model: " text-value))
+                                                         (.typeahead element "setQuery" (if text-value text-value ""))))
                                   set-up-typeahead (fn []
                                                      (let [dataset-is-valid-attr (.-lovDatasetIsValid attrs)
                                                            dataset-is-valid (if (nil? dataset-is-valid-attr) true
                                                                               (.$eval scope (str "(" dataset-is-valid-attr ")? true:false")))]
+                                                       (.log js/console "destroy typeahead")
                                                        (.typeahead element "destroy")
+                                                       (.off element)
+                                                       (when-not dataset-is-valid (.log js/console "Data set is not valid"))
                                                        (when dataset-is-valid
+                                                         (.log js/console (str "setup typeahead #" (.attr element "id")))
+                                                         (when-not (or (nil? lov-disabled) (undefined? lov-disabled))
+                                                           (let [disabled (.$eval scope lov-disabled)]
+                                                             (if disabled 
+                                                               (.attr element "disabled" "disabled")
+                                                               (.removeAttr element "disabled"))))
                                                          (.typeahead element 
                                                            (let [name (.-lovTypeahead attrs)
                                                                  limit (.-lovLimit attrs)
@@ -87,15 +104,33 @@
                                                                                                                           (.$destroy scope)
                                                                                                                           html))))
                                                                  options-js (clj->js options)]
-                                                             options-js)))))]
-                              (.$observe attrs "lovTypeahead" set-up-typeahead)
-                              (.$observe attrs "lovRemote" set-up-typeahead)
-                              (.$watch scope lov-model (fn [value] (.val element (if (or (nil? value) (undefined? value)) 
-                                                                                   "" 
-                                                                                   (aget value value-key)))))
-                              (doto element
-                                (.on "typeahead:selected" update-model)
-                                (.on "typeahead:autocompleted" update-model)))))
+                                                             (.log js/console (str "typeahead: " name))
+                                                             (.log js/console (str "remote: " remote))
+                                                             (.log js/console (str "options: " (.stringify js/JSON options-js)))
+                                                             options-js))
+                                                         (doto element
+                                                           (.on "typeahead:selected" update-model)
+                                                           (.on "typeahead:autocompleted" update-model)
+                                                           (.on "destroy" (fn [] 
+                                                                            (.log js/console "destroy event")
+                                                                            (.typeahead element "setQuery" "")
+                                                                            (.typeahead element "destroy")
+                                                                            (.off element)))
+                                                           (.on "typeahead:closed" (fn []
+                                                                         (.log js/console "typeahead:closed event")
+                                                                         ( if (and (.val element) (< 0 (count (.val element))))
+                                                                           (do
+                                                                             (.log js/console "Typeahead value exists")
+                                                                             (set-query-value (.$eval scope lov-model)))
+                                                                           (do 
+                                                                             (.log js/console "Typeahead value deleted")
+                                                                             (set-in-scope scope lov-model js-obj)
+                                                                             (.$digest scope)))))))))]
+                              (.$observe attrs "lovTypeahead" (fn [] 
+                                                                ($timeout (fn []
+                                                                            (.log js/console "lovTypeahead changed")
+                                                                            (set-up-typeahead)))))
+                              (.$watch scope lov-model (fn [value] (set-query-value value))))))
 
 (def lovTypeaheadModule
    "The definition of the lov-typeahead's module"
@@ -103,10 +138,10 @@
 
 (.directive lovTypeaheadModule
   "lovTypeahead"
-  (clj->js ["$rootScope", "$compile",
-            (fn [$rootScope, $compile]
+  (clj->js ["$rootScope", "$compile", "$timeout",
+            (fn [$rootScope, $compile, $timeout]
               (clj->js {:compile (fn [tElement tAttrs]
                                    (let [template (.-lovTemplate tAttrs)]
                                      (when template (.$set tAttrs "lovTemplate" ""))
-                                     (templated-link-typeahead template $rootScope $compile)))}))]))
+                                     (templated-link-typeahead template $rootScope $compile $timeout)))}))]))
 

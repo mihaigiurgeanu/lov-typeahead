@@ -8,9 +8,12 @@ var jQuery = {};
 jQuery.fn = {};
 jQuery.fn.typeahead = function () {};
 jQuery.fn.on = function () {};
+jQuery.fn.off = function () {};
 jQuery.fn.val = function () {};
 jQuery.fn.html = function () {};
 jQuery.fn.prop = function() {};
+jQuery.fn.attr = function() {};
+jQuery.fn.removeAttr = function() {};
 
 var angular = {};
 angular.module = function() {};
@@ -30,6 +33,7 @@ ng.$compile.direrctive.Attributes.lovModel = null;
 ng.$compile.direrctive.Attributes.lovValueKey = null;
 ng.$compile.direrctive.Attributes.lovLocal = null;
 ng.$compile.direrctive.Attributes.lovTemplate = null;
+ng.$compile.direrctive.Attributes.lovDisabled = null;
 ng.$compile.direrctive.Attributes.$set = function () {};
 
 ng.$rootScope = {};
