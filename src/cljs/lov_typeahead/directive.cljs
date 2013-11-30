@@ -125,7 +125,8 @@
                                                                           (do 
                                                                             (.log js/console "Typeahead value deleted")
                                                                             (set-in-scope scope lov-model js-obj)
-                                                                            (.$digest scope)))))))))]
+                                                                            (.$digest scope))))))
+                                                        (set-query-value (.$eval scope lov-model)))))]
                               (.$observe attrs "lovTypeahead" (fn [] ($timeout (fn []
                                                                                  (.log js/console "lov-typeahead changed")
                                                                                  (setup-typeahead)))))

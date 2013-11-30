@@ -4485,7 +4485,7 @@ function oe(a, b, c, d) {
               return e.$digest()
             }
           }(g, r, v, d, k, l, m, p));
-          return g
+          return p(e.$eval(k))
         }
         return null
       }
