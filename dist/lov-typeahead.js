@@ -4402,10 +4402,10 @@ function ne(a, b, c) {
 }
 function oe(a, b, c, d) {
   return function(e, g, h) {
-    var k = h.lovValueKey, l = h.lovModel, m = h.lovDisabled, p = function(a, b) {
-      return function(a, c) {
-        ne(e, b, c.object);
-        return e.$digest()
+    var k = h.lovValueKey, l = h.lovModel, m = h.lovDisabled, p = function(a, c) {
+      return function(a, d) {
+        ne(e, c, d.object);
+        return b.$digest()
       }
     }(k, l, m), q = function(a) {
       return function(b) {

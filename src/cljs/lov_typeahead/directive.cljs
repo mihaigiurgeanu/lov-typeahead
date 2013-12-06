@@ -51,7 +51,7 @@
                                   lov-disabled (.-lovDisabled attrs)
                                   update-model (fn [event datum name]
                                                  (set-in-scope scope lov-model (.-object datum))
-                                                 (.$digest scope))
+                                                 (.$digest $rootScope))
                                   set-query-value (fn [value] 
                                                          (let [text-value (if (or (nil? value) (undefined? value)) 
                                                                             "" 
