@@ -16,7 +16,10 @@ testApp.controller('Ctrl', function($scope) {
 	};
 	$scope.dataName = "data";
 	$scope.datasetIsValid = true;
+	$scope.watchHit = 0;
 
+	$scope.$watch("country", function () {$scope.watchHit++;});
+	
 	$scope.address = {
 		country : null
 	};
