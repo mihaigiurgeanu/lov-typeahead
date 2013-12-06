@@ -21,7 +21,7 @@
   [scope model val] 
   (let [fields (clojure.string/split model #"\.")
         model-field-part (last fields)
-        model-field (let [indexed-qfield (re-matches indexed-field-re model-field-part)]
+        model-field (let [indexed-field (re-matches indexed-field-re model-field-part)]
                       (if indexed-field
                         (.$eval scope (indexed-field 2))
                         model-field-part))
