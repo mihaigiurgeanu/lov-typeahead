@@ -1,6 +1,6 @@
 # lov-typeahead
 
-Implemetation of a list of values directive for Angula JS based on Twitter's typeahead.js component. It uses
+Implemetation of a list of values directive for Angular JS based on Twitter's typeahead.js component. It uses
 typeahead.js component to select one javascript object from an array of objects.
 
 ## Usage
