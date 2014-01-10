@@ -108,7 +108,7 @@
                                                                           (do
                                                                             (set-query-value (.$eval scope lov-model)))
                                                                           (do 
-                                                                            (set-in-scope scope lov-model js-obj)
+                                                                            (set-in-scope scope lov-model nil)
                                                                             (.$digest scope))))))
                                                         (set-query-value (.$eval scope lov-model)))))]
                               (.$observe attrs "lovTypeahead" (fn [] ($timeout (fn []
