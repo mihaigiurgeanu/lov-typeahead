@@ -1,4 +1,4 @@
-(defproject lov-typeahead "0.1.0-SNAPSHOT"
+(defproject lov-typeahead "0.2.4-RC.1"
   :description "A list of values AngularJS component based on Twitter's typeahead"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
