@@ -37,6 +37,19 @@ FIXME
 	  </body>
 	</html>
 
+## Testing
+
+For running tests automatically you need to start selenium server then type grunt:
+
+	#> java -jar selenium/selenium-server-standalone-2.37.0.jar
+	#> grunt
+	
+For see the demo usage and play with typeahead lov just runt grunt demo. This will
+start a web server on port 8000 and you can load any html file from the test folder.
+Most common will be http:://localhost:8000/typeahead-demo-prefetch.html.
+
+	#> grunt demo
+
 ## License
 
 Copyright © 2013 FIXME
